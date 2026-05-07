@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Card App</title>
+    <style>
+        :root {
+            --bg: #eef2f7;
+            --card: #ffffff;
+            --accent: #4f46e5;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #d1d5db;
+            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, system-ui, sans-serif;
+            color: var(--text);
+            background: linear-gradient(180deg, #f8fbff 0%, #eef2f7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+        }
+
+        .app-shell {
+            width: min(560px, 100%);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 32px;
+        }
+
+        h1 {
+            margin: 0 0 20px;
+            font-size: 2rem;
+            letter-spacing: -0.03em;
+            text-align: center;
+        }
+
+        form {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fbfdff;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            background: #3730a3;
+        }
+
+        .secondary-button {
+            background: #ffffff;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #cardContainer {
+            display: grid;
+            gap: 16px;
+        }
+
+        .student-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+            padding: 22px;
+        }
+
+        .student-image {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            object-fit: cover;
+        }
+
+        .student-card h2 {
+            margin: 0 0 10px;
+            font-size: 1.4rem;
+        }
+
+        .student-card p {
+            margin: 6px 0;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="app-shell">
+        <h1>Student Card Generator</h1>
+        <form id="studentForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="class">Class:</label>
+            <input type="text" id="class" name="class" required>
+
+            <div id="pictureField" class="hidden">
+                <label for="pictureFile">Picture File:</label>
+                <input type="file" id="pictureFile" name="pictureFile" accept="image/*">
+            </div>
+
+            <div class="button-row">
+                <button type="button" id="addPictureBtn" class="secondary-button">Add Picture</button>
+                <button type="submit">Generate Card</button>
+            </div>
+        </form>
+        <div id="cardContainer"></div>
+    </div>
+    <script>
+        document.getElementById('addPictureBtn').addEventListener('click', function() {
+            const pictureField = document.getElementById('pictureField');
+            pictureField.classList.toggle('hidden');
+            if (!pictureField.classList.contains('hidden')) {
+                document.getElementById('pictureFile').focus();
+            }
+        });
+
+        document.getElementById('studentForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get input values
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const studentClass = document.getElementById('class').value;
+            const pictureFile = document.getElementById('pictureFile').files[0];
+
+            let imageSrc = '';
+            if (pictureFile) {
+                imageSrc = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(pictureFile);
+                });
+            }
+
+            // Create a card element
+            const card = document.createElement('div');
+            card.className = 'student-card';
+
+            // Add student details to the card
+            card.innerHTML = `
+                ${imageSrc ? `<img src="${imageSrc}" alt="${name}" class="student-image">` : ''}
+                <h2>${name}</h2>
+                <p>Age: ${age}</p>
+                <p>Class: ${studentClass}</p>
+            `;
+
+            // Append the card to the container
+            document.getElementById('cardContainer').appendChild(card);
+
+            // Clear the form
+            this.reset();
+            document.getElementById('pictureField').classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
