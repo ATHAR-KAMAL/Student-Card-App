@@ -1,209 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Card App</title>
-    <style>
-        :root {
-            --bg: #eef2f7;
-            --card: #ffffff;
-            --accent: #4f46e5;
-            --text: #111827;
-            --muted: #6b7280;
-            --border: #d1d5db;
-            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID Card Generator</title>
 
-        * {
-            box-sizing: border-box;
-        }
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, sans-serif;
+    }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Inter, system-ui, sans-serif;
-            color: var(--text);
-            background: linear-gradient(180deg, #f8fbff 0%, #eef2f7 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 32px;
-        }
+    body{
+        background:#eef2ff;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        min-height:100vh;
+    }
 
-        .app-shell {
-            width: min(560px, 100%);
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            padding: 32px;
-        }
+    .container{
+        width:400px;
+        background:white;
+        padding:25px;
+        border-radius:15px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    }
 
-        h1 {
-            margin: 0 0 20px;
-            font-size: 2rem;
-            letter-spacing: -0.03em;
-            text-align: center;
-        }
+    h1{
+        text-align:center;
+        margin-bottom:20px;
+        color:#4338ca;
+    }
 
-        form {
-            display: grid;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
+    .input-group{
+        margin-bottom:15px;
+    }
 
-        label {
-            font-weight: 600;
-            color: var(--text);
-        }
+    label{
+        display:block;
+        margin-bottom:5px;
+        font-weight:bold;
+    }
 
-        input {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background: #fbfdff;
-            color: var(--text);
-            font-size: 1rem;
-        }
+    input{
+        width:100%;
+        padding:10px;
+        border:1px solid #ccc;
+        border-radius:8px;
+    }
 
-        button {
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 14px 18px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease;
-        }
+    button{
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:8px;
+        background:#4338ca;
+        color:white;
+        font-size:16px;
+        cursor:pointer;
+        transition:0.3s;
+    }
 
-        button:hover {
-            transform: translateY(-1px);
-            background: #3730a3;
-        }
+    button:hover{
+        background:#312e81;
+    }
 
-        .secondary-button {
-            background: #ffffff;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-        }
-
-        .button-row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        #cardContainer {
-            display: grid;
-            gap: 16px;
-        }
-
-        .student-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            border-radius: 18px;
-            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
-            padding: 22px;
-        }
-
-        .student-image {
-            width: 100%;
-            height: auto;
-            border-radius: 16px;
-            margin-bottom: 16px;
-            object-fit: cover;
-        }
-
-        .student-card h2 {
-            margin: 0 0 10px;
-            font-size: 1.4rem;
-        }
-
-        .student-card p {
-            margin: 6px 0;
-            color: var(--muted);
-        }
-    </style>
+    .preview{
+        width:100px;
+        height:100px;
+        border-radius:50%;
+        object-fit:cover;
+        display:block;
+        margin:10px auto;
+        border:3px solid #4338ca;
+    }
+</style>
 </head>
 <body>
-    
-    <div class="app-shell">
-        <h1>Student Card Generator</h1>
-        <form id="studentForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
 
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required>
+<div class="container">
 
-            <label for="class">Class:</label>
-            <input type="text" id="class" name="class" required>
+    <h1>Student ID Generator</h1>
 
-            <div id="pictureField" class="hidden">
-                <label for="pictureFile">Picture File:</label>
-                <input type="file" id="pictureFile" name="pictureFile" accept="image/*">
+    <form id="studentForm">
+
+        <div class="input-group">
+            <label>Name</label>
+            <input type="text" id="name" required>
+        </div>
+
+        <div class="input-group">
+            <label>Age</label>
+            <input type="number" id="age" required>
+        </div>
+
+        <div class="input-group">
+            <label>Class</label>
+            <input type="text" id="studentClass" required>
+        </div>
+
+        <div class="input-group">
+            <label>Student ID</label>
+            <input type="text" id="studentId" required>
+        </div>
+
+        <div class="input-group">
+            <label>Upload Picture</label>
+            <input type="file" id="picture" accept="image/*">
+        </div>
+
+        <img id="previewImage" class="preview" src="" style="display:none;">
+
+        <button type="submit">Generate ID Card</button>
+
+    </form>
+
+</div>
+
+<script>
+
+const pictureInput = document.getElementById("picture");
+const previewImage = document.getElementById("previewImage");
+
+let imageURL = "";
+
+// IMAGE PREVIEW USING DOM
+pictureInput.addEventListener("change", function(){
+
+    const file = this.files[0];
+
+    if(file){
+
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+
+            imageURL = e.target.result;
+
+            previewImage.src = imageURL;
+            previewImage.style.display = "block";
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+
+// FORM SUBMIT
+document.getElementById("studentForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    // GET VALUES
+    const name = document.getElementById("name").value;
+    const age = document.getElementById("age").value;
+    const studentClass = document.getElementById("studentClass").value;
+    const studentId = document.getElementById("studentId").value;
+
+    // OPEN NEW PAGE
+    const newWindow = window.open("", "_blank");
+
+    // CREATE HTML FOR ID CARD
+    newWindow.document.write(`
+
+    <html>
+    <head>
+        <title>ID Card</title>
+
+        <style>
+
+            body{
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                height:100vh;
+                background:#e0e7ff;
+                font-family:Arial;
+            }
+
+            .card{
+                width:350px;
+                background:white;
+                border-radius:20px;
+                overflow:hidden;
+                box-shadow:0 10px 25px rgba(0,0,0,0.2);
+                text-align:center;
+            }
+
+            .header{
+                background:#4338ca;
+                color:white;
+                padding:20px;
+            }
+
+            .header h1{
+                font-size:22px;
+            }
+
+            .profile{
+                margin-top:20px;
+            }
+
+            .profile img{
+                width:120px;
+                height:120px;
+                border-radius:50%;
+                border:5px solid #4338ca;
+                object-fit:cover;
+            }
+
+            .details{
+                padding:20px;
+                text-align:left;
+            }
+
+            .details p{
+                margin:10px 0;
+                font-size:18px;
+            }
+
+            .download-btn{
+                margin:20px;
+                padding:12px 20px;
+                background:#4338ca;
+                color:white;
+                border:none;
+                border-radius:8px;
+                cursor:pointer;
+                font-size:16px;
+            }
+
+            .download-btn:hover{
+                background:#312e81;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="card">
+
+            <div class="header">
+                <h1>Student ID Card</h1>
+                <p>ABC School System</p>
             </div>
 
-            <div class="button-row">
-                <button type="button" id="addPictureBtn" class="secondary-button">Add Picture</button>
-                <button type="submit">Generate Card</button>
+            <div class="profile">
+                ${
+                    imageURL
+                    ? `<img src="${imageURL}">`
+                    : `<img src="https://via.placeholder.com/120">`
+                }
             </div>
-        </form>
-        <div id="cardContainer"></div>
-    </div>
-    <script>
-        document.getElementById('addPictureBtn').addEventListener('click', function() {
-            const pictureField = document.getElementById('pictureField');
-            pictureField.classList.toggle('hidden');
-            if (!pictureField.classList.contains('hidden')) {
-                document.getElementById('pictureFile').focus();
-            }
-        });
 
-        document.getElementById('studentForm').addEventListener('submit', async function(event) {
-            event.preventDefault(); // Prevent form submission
+            <div class="details">
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Age:</strong> ${age}</p>
+                <p><strong>Class:</strong> ${studentClass}</p>
+                <p><strong>ID:</strong> ${studentId}</p>
+            </div>
 
-            // Get input values
-            const name = document.getElementById('name').value;
-            const age = document.getElementById('age').value;
-            const studentClass = document.getElementById('class').value;
-            const pictureFile = document.getElementById('pictureFile').files[0];
+            <button class="download-btn" onclick="window.print()">
+                Download / Print
+            </button>
 
-            let imageSrc = '';
-            if (pictureFile) {
-                imageSrc = await new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => resolve(e.target.result);
-                    reader.readAsDataURL(pictureFile);
-                });
-            }
+        </div>
 
-            // Create a card element
-            const card = document.createElement('div');
-            card.className = 'student-card';
+    </body>
+    </html>
 
-            // Add student details to the card
-            card.innerHTML = `
-                ${imageSrc ? `<img src="${imageSrc}" alt="${name}" class="student-image">` : ''}
-                <h2>${name}</h2>
-                <p>Age: ${age}</p>
-                <p>Class: ${studentClass}</p>
-            `;
+    `);
 
-            // Append the card to the container
-            document.getElementById('cardContainer').appendChild(card);
+    newWindow.document.close();
 
-            // Clear the form
-            this.reset();
-            document.getElementById('pictureField').classList.add('hidden');
-        });
-    </script>
+});
+
+</script>
+
 </body>
 </html>
